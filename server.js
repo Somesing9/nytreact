@@ -49,11 +49,13 @@ db.once("open", function() {
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  request("http://www.echojs.com/", function(error, response, html) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
+  request('http://www.cleveland19.com', function(error, response, html) {
+    // Load html body from request into cheerio
     var $ = cheerio.load(html);
-    // Now, we grab every h2 within an article tag, and do the following:
-    $("article h2").each(function(i, element) {
+    $('.wnContent.headline').each(function(i, element) {
+      var title = $(this).children('a').children('span').text().trim();
+      var link = $(this).children('a').attr('href');
+      link = "http://www.cleveland19.com" + link;
 
       // Save an empty result object
       var result = {};
